@@ -37,8 +37,8 @@ defmodule CSV.Decoding.Parser do
       {:double_quote, content} ->
         parse(row, field <> content, tokens, :unescaped, options)
 
-      _ ->
-        {:error, StrayQuoteError, field}
+      {_, content} ->
+        parse(row, field <> content, tokens, :unescaped, options)
     end
   end
 
@@ -53,8 +53,8 @@ defmodule CSV.Decoding.Parser do
       {:delimiter, _} ->
         parse(row, field, tokens, :unescaped, options)
 
-      _ ->
-        {:error, StrayQuoteError, field}
+      {_, content} ->
+        parse(row, field <> content, tokens, :escaped, options)
     end
   end
 
